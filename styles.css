@@ -4,29 +4,20 @@ body {
     background: linear-gradient(135deg, #1e3c72, #2a5298, #10002b, #20004b);
     min-height: 100vh;
     color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
 }
 
-h1, h2 {
+h1 {
     text-align: center;
 }
 
 .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between; /* Espacio entre columnas */
     width: 90%;
-    max-width: 1000px;
     margin: auto;
-    flex-wrap: wrap; /* Permite que las columnas se ajusten en móviles */
+    max-width: 1000px;
 }
 
 .input-field {
     margin-bottom: 15px;
-    width: 100%; /* Asegura que los campos ocupen el ancho completo */
 }
 
 label {
@@ -45,14 +36,23 @@ input, button {
     color: white;
 }
 
+.cards-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.cards-column {
+    flex: 1;
+    margin: 0 10px;
+}
+
 .card {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     padding: 20px;
-    margin: 10px; /* Espaciado entre tarjetas */
+    margin-bottom: 20px;
     backdrop-filter: blur(10px);
-    width: calc(45% - 20px); /* Ancho para columnas */
-    max-width: 400px; /* Ancho máximo para las tarjetas */
 }
 
 .progress-bar {
@@ -65,15 +65,4 @@ input, button {
 .card-buttons {
     display: flex;
     justify-content: space-between;
-}
-
-/* Responsivo */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column; /* Cambia a columna en dispositivos pequeños */
-        align-items: center; /* Centra columnas */
-    }
-    .card {
-        width: 90%; /* Ancho completo en móviles */
-    }
 }
