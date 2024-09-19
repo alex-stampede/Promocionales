@@ -1,36 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>App de Promocionales</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App de Promocionales</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Gestión de Promocionales</h1>
-
-    <div class="input-field">
-      <label for="promotionalName">Nombre del Promocional</label>
-      <input type="text" id="promotionalName" placeholder="Ej. Tazas Personalizadas">
+    <div class="container">
+        <h1>Agregar Promocional</h1>
+        <input type="text" id="promotionalName" placeholder="Nombre del promocional" required>
+        <input type="number" id="quantityBought" placeholder="Cantidad comprada" required>
+        <input type="number" id="unitCost" placeholder="Costo unitario" required>
+        <button id="addButton">Agregar</button>
+        
+        <div id="promotionalCards" class="card-container"></div>
     </div>
 
-    <div class="input-field">
-      <label for="quantityBought">Cantidad Comprada</label>
-      <input type="number" id="quantityBought" placeholder="Ej. 100">
-    </div>
-
-    <div class="input-field">
-      <label for="unitCost">Costo Unitario</label>
-      <input type="number" step="0.01" id="unitCost" placeholder="Ej. 10.50">
-    </div>
-
-    <button id="addButton">Agregar Promocional</button>
-
-    <h2>Promocionales Agregados</h2>
-    <div id="promotionalCards"></div>
-  </div>
-
-  <script type="module" src="app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
