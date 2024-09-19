@@ -1,19 +1,18 @@
-// Importa las funciones de Firebase
+// Importar Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-// Configuración de Firebase
+// Tu configuración de Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyAmQ9iS2AmXQvSbbC6zzVzF0GFfNFfSQ9k",
-  authDomain: "promocionales-aspelab.firebaseapp.com",
-  projectId: "promocionales-aspelab",
-  storageBucket: "promocionales-aspelab.appspot.com",
-  messagingSenderId: "290478011011",
-  appId: "1:290478011011:web:85d907925a5d663d4fa1b6",
-  measurementId: "G-RQ30ZGG9KK"
+    apiKey: "AIzaSyAmQ9iS2AmXQvSbbC6zzVzF0GFfNFfSQ9k",
+    authDomain: "promocionales-aspelab.firebaseapp.com",
+    projectId: "promocionales-aspelab",
+    storageBucket: "promocionales-aspelab.appspot.com",
+    messagingSenderId: "290478011011",
+    appId: "1:290478011011:web:85d907925a5d663d4fa1b6"
 };
 
-// Inicializar Firebase y Firestore
+// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -21,17 +20,27 @@ const db = getFirestore(app);
 const addButton = document.getElementById('addButton');
 const promotionalCards = document.getElementById('promotionalCards');
 
+// Obtener los datos de Firestore al cargar la página
+window.onload = async function() {
+    const querySnapshot = await getDocs(collection(db, "promocionales"));
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        agregarTarjeta(doc.id, data.name, data.quantity, data.unitCost);
+    });
+};
+
 // Evento para agregar promocional
 addButton.addEventListener('click', async function() {
     const promotionalName = document.getElementById('promotionalName').value;
     const quantityBought = parseInt(document.getElementById('quantityBought').value);
     const unitCost = parseFloat(document.getElementById('unitCost').value);
-    const totalCost = quantityBought * unitCost;
 
     // Validación básica
     if (promotionalName && quantityBought && unitCost) {
+        const totalCost = quantityBought * unitCost;
+
+        // Guardar en Firestore
         try {
-            // Guardar en Firebase
             const docRef = await addDoc(collection(db, "promocionales"), {
                 name: promotionalName,
                 quantity: quantityBought,
@@ -50,7 +59,7 @@ addButton.addEventListener('click', async function() {
 });
 
 // Función para agregar la tarjeta a la interfaz
-function agregarTarjeta(id, name, quantity, unitCost, totalCost) {
+function agregarTarjeta(id, name, quantity, unitCost) {
     const card = document.createElement('div');
     card.className = 'card';
     card.id = id;
@@ -62,7 +71,9 @@ function agregarTarjeta(id, name, quantity, unitCost, totalCost) {
         <button onclick="restarCantidad('${id}', ${quantity})">Restar</button>
         <div class="progress-bar" id="progress-${id}"></div>
         <p>Costo unitario: $${unitCost}</p>
-        <button onclick="eliminarTarjeta('${id}')">Eliminar</button>
+        <div class="card-buttons">
+            <button onclick="eliminarTarjeta('${id}')">Eliminar</button>
+        </div>
     `;
 
     promotionalCards.appendChild(card);
@@ -77,7 +88,7 @@ async function restarCantidad(id, originalQuantity) {
     if (cantidadRestar && cantidadRestar <= currentQuantity) {
         currentQuantity -= cantidadRestar;
 
-        // Actualizar la cantidad en Firebase
+        // Actualizar la cantidad en Firestore
         try {
             await updateDoc(doc(db, "promocionales", id), {
                 quantity: currentQuantity
@@ -109,7 +120,7 @@ function actualizarBarraProgreso(id, currentQuantity, originalQuantity) {
 
 // Función para eliminar la tarjeta
 async function eliminarTarjeta(id) {
-    // Eliminar de Firebase
+    // Eliminar de Firestore
     try {
         await deleteDoc(doc(db, "promocionales", id));
         console.log("Promocional eliminado con éxito.");
@@ -117,13 +128,4 @@ async function eliminarTarjeta(id) {
     } catch (error) {
         console.error("Error al eliminar el documento: ", error);
     }
-}
-
-// Obtener los datos de Firebase al cargar la página
-window.onload = async function() {
-    const querySnapshot = await getDocs(collection(db, "promocionales"));
-    querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        agregarTarjeta(doc.id, data.name, data.quantity, data.unitCost, data.totalCost);
-    });
 }
