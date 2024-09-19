@@ -3,29 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
     <title>Gestión de Promocionales</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>Gestión de Promocionales</h1>
         <div class="input-field">
-            <label for="promotionalName">Nombre del Promocional:</label>
+            <label for="promotionalName">Nombre del promocional:</label>
             <input type="text" id="promotionalName">
         </div>
         <div class="input-field">
-            <label for="quantityBought">Cantidad Comprada:</label>
+            <label for="quantityBought">Cantidad comprada:</label>
             <input type="number" id="quantityBought">
         </div>
         <div class="input-field">
-            <label for="unitCost">Costo Unitario:</label>
-            <input type="number" id="unitCost">
+            <label for="unitCost">Costo unitario:</label>
+            <input type="number" id="unitCost" step="0.01">
         </div>
         <button id="addButton">Agregar Promocional</button>
-        
-        <div class="columns">
-            <div class="column" id="promotionalCards"></div>
-            <div class="column" id="movementHistory"></div>
+        <div class="cards-container">
+            <div id="promotionalCards" class="cards-column"></div>
+            <div id="historyCards" class="cards-column"></div>
         </div>
     </div>
     <script src="app.js"></script>
